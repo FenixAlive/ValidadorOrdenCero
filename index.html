@@ -16,13 +16,6 @@
       .men{
         margin: 1em 0em !important;
       }
-      footer{
-        position: fixed;
-        bottom: 0px;
-        width: 100%;
-        margin: 0px !important;
-        padding: 0px !important;
-      }
       a{
         text-decoration: none;
         color: #333;
@@ -31,22 +24,21 @@
         text-decoration: none;
         color: #777;
       }
-      @media (max-width: 550px) {
-      *{
-       font-size: 11px !important;
-       }
-      }
-      @media (max-width: 470px) {
-      *{
-       font-size: 9px !important;
-       }
-      }
       @media (max-height: 600px) {
       *{
        font-size: 9px !important;
        }
       }
-
+      @media (max-width: 600px) {
+      *{
+       font-size: 11px !important;
+       }
+      }
+      @media (max-width: 320px) {
+      *{
+       font-size: 7px !important;
+       }
+      }
     </style>
 </head>
 <body>
@@ -56,6 +48,13 @@
         <div class="card text-center bg-light">
           <div class="card-body">
             <h3>Validador de {{que[0]}}</h3>
+            <p>
+              <p class = "col-sm-auto">
+                Elaborado por Luis Angel Muñoz Franco
+                <a href="https://github.com/FenixAlive/ValidadorOrdenCero">@2019</a>
+              </p>
+              <p class="col-sm-auto">Tema: Lógica de orden Cero, para la Clase de Sistemas Inteligentes I</p>
+            </p>
           </div>
         </div>
       </div>
@@ -64,7 +63,7 @@
       <div class="row align-self-center justify-content-center">
         <div class="col">
           <div class="input-group">
-            <button v-on:click="cambiar" v-bind:class="que[3]" class="btn-lg btn-block" type="button">Presiona para Validar {{queCont[0]}}</button>
+            <button v-on:click="cambiar" v-bind:class="que[3]" class="btn-lg btn-block" type="button">Presiona para cambiar a {{queCont[0]}}</button>
             <button v-on:click="limpiar" class="btn btn-secondary btn-lg btn-block" type="button">Limpiar Busqueda</button>
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon1">{{que[1]}}</span>
@@ -80,15 +79,7 @@
       </div>
     </div>
     <footer>
-      <div class="row align-items-center justify-content-center">
-        <div class="col">
-          <div class="card text-center bg-light">
-            <div class="card-body">
-              <p><span class = "col-sm-6">Elaborado por Luis Angel Muñoz Franco<a href="https://github.com/FenixAlive/ValidadorOrdenCero">@2019</a></span> <span class="col-sm-6">Tema: Lógica de orden Cero, para la Clase de Sistemas Inteligentes I</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
+
     </footer>
   </div>
   <!-- development version, includes helpful console warnings -->
