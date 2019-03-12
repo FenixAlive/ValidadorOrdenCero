@@ -1,0 +1,2 @@
+Para ver el programa se puede abrir directamente el archivo index.html en un navegador moderno, o ir al siguiente enlace:
+https://fenixalive.github.io/ValidadorOrdenCero/ 
