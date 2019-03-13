@@ -133,6 +133,11 @@
       this.resclass = ""
     },
     validarCorreo: function(val){
+      //cadenas a validar
+      var alfa = "abcdefghijklmnopqrstuvwxrz"
+      var alfaminMay = alfa+alfa.toUpperCase()
+      var numerico = "0123456789"
+
       function main(val){
         val1 = val.split('@')
         //si no tenemos un arroba
@@ -164,10 +169,11 @@
       function validarNombre(val){
         if(val[0] == '.' || val[0] == '_')
           return [false, `<div class="card-text">Es erroneo comenzar el correo con <strong>${val[0]}</strong></div>`]
-        var re = new RegExp(/[^a-zA-Z0-9._]/, 'g')
-        err = re.exec(val)
-        if(err)
-          return [false, `<div class="card-text">Nombre con el error ${err[0]}</div>`]
+        err = valText(val, alfaminMay+numerico+'._')
+        if(err[0]){
+          let e = err[1].join(" ")
+          return [false, `<div class="card-text">Nombre con el error: ${e}</div>`]
+        }
         return [true, '<div class="card-text">Nombre correcto</div>']
       }
       function validarDominio(val){
@@ -177,24 +183,50 @@
         valslen = vals.length
         if(valslen < 2)
           return [false, `<div class="card-text">Falta la Extensión del correo despues del dominio</div>`]
-        var re = new RegExp(/[^a-zA-Z]/, 'g')
-        err = re.exec(vals[0])
-        if(err)
-          return [false, `<div class="card-text">Dominio con el error ${err[0]}</div>`]
+        err = valText(vals[0], alfaminMay)
+        if(err[0]){
+          let e = err[1].join(" ")
+          return [false, `<div class="card-text">Dominio con el error ${e}</div>`]
+        }
         for(let i = 1; i<valslen; i++){
           if(vals[i].length == 0)
             return [false, `<div class="card-text">La Extensión termina en punto o hay 2 puntos seguidos</div>`]
-          if(vals[i].length < 2)
+          else if(i > 2)
+            return [false, `<div class="card-text">La Extensión ${vals[i]} excede el numero de extensiones</div>`]
+          else if(vals[i].length < 2)
             return [false, `<div class="card-text">La Extensión ${vals[i]} es menor a 2 caracteres</div>`]
           else if(vals[i].length > 3)
             return [false, `<div class="card-text">La Extensión ${vals[i]} es mayor a 3 caracteres</div>`]
           else {
-            errin = re.exec(vals[i])
-            if (errin)
-              return [false, `<div class="card-text">La Extensión ${vals[i]} tiene el error ${errin[0]}</div>`]
+            errin = valText(vals[i], alfaminMay)
+            if (errin[0]){
+              let e = errin[1].join(" ")
+              return [false, `<div class="card-text">La Extensión ${vals[i]} tiene el error ${e}</div>`]
+            }
           }
         }
         return [true, '<div class="card-text">Dominio correcto</div>']
+      }
+      function valText(valValidar, cadena){
+        //esta funcion regresa un array de caracteres invalidos
+        //valValidar es lo que quieres validar
+        //cadena son los caracteres validos
+        var cadenaInvalida = []
+        var vv = false
+        for(let i = 0; i<valValidar.length; i++){
+          let v = false;
+          for(let j = 0; j<cadena.length; j++){
+            if (valValidar[i] == cadena[j]){
+              v = true
+              break;
+            }
+          }
+          if(!v){
+            cadenaInvalida.push(valValidar[i])
+            vv = true
+          }
+        }
+        return [vv, cadenaInvalida]
       }
       return main(val) //llamar a función principal
     },
@@ -225,7 +257,7 @@
       }
       //revisa si el valor v es un numero
       function revisarNum(v){
-        num = "0123456789"
+        var num = "0123456789"
         for(let i = 0; i < 10; i++){
           if (num[i] == v)
             return true
@@ -257,6 +289,8 @@
         if(val.length != 0){
           if(val[0] == '.'){
             val = val.substring(1)
+            if (val.length == 0)
+              return [false, `<h5 class="card-title">No hay numeros despues del punto</h5>`]
             if(revNums())
               return [true, `<h5 class="card-title">Numero ${ori} correcto</h5>`]
             else {
@@ -274,7 +308,7 @@
       }
 
       return main(val)
-    },
+    }
   },
   mounted: function(){
     this.limpiar()
